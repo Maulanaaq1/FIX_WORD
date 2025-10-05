@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Laporan Pemasukan Pelanggan - WORD NET</title>
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <!-- FontAwesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
+
+  <!-- Custom CSS -->
+  <style>
+    body { background:#f5f7fb; font-family: 'Inter', sans-serif; }
+    .navbar-brand img { height:32px; }
+    .page-title { font-weight:700; margin:20px 0 10px; }
+    .stat-card { background:#fff; border-radius:12px; padding:16px; box-shadow:0 4px 10px rgba(0,0,0,0.05); }
+    .stat-card h6 { font-size:14px; color:#666; margin-bottom:6px; }
+    .stat-card .value { font-size:20px; font-weight:800; }
+    .form-section, .table-section { background:#fff; border-radius:12px; padding:16px; box-shadow:0 4px 10px rgba(0,0,0,0.05); margin-top:18px; }
+    .table thead { background:#274eec; color:#fff; }
+    tbody tr:nth-child(even){ background:#f9faff; }
+    tbody tr:nth-child(odd){ background:#eef1ff; }
+    /* Kotak utama */
+    .grand-card { background:#274eec; color:#fff; border-radius:12px; padding:24px; box-shadow:0 6px 16px rgba(0,0,0,0.1); margin-top:18px; text-align:center; }
+    .grand-card h5 { margin-bottom:10px; font-weight:600; }
+    .grand-card .value { font-size:28px; font-weight:800; }
+  </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm px-4">
+  <a class="navbar-brand fw-bold me-5" href="#">
+    <img src="Word.png" alt="Logo" height="30" class="d-inline-block align-text-top">
+  </a>
+  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarContent">
+    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+      <li class="nav-item"><a class="nav-link" href="laporan.html"><i class="fas fa-chart-line"></i> Laporan</a></li>
+      <li class="nav-item"><a class="nav-link" href="pelanggan.html"><i class="fas fa-receipt"></i> Laporan Pelanggan</a></li>
+      <li class="nav-item"><a class="nav-link" href="absen.html"><i class="fas fa-user-check"></i> Absen</a></li>
+      <li class="nav-item"><a class="nav-link" href="pemasukan.html"><i class="fas fa-wallet"></i> Pemasukan</a></li>
+      <li class="nav-item"><a class="nav-link" href="pengeluaran.html"><i class="fas fa-money-bill-wave"></i> Pengeluaran</a></li>
+      <li class="nav-item"><a class="nav-link" href="asset.html"><i class="fas fa-box"></i> Assets</a></li>
+      <li class="nav-item"><a class="nav-link" href="Instalasi.html"><i class="fas fa-clipboard"></i> Instalasi</a></li>
+      <li class="nav-item"><a class="nav-link" href="Approval.html"><i class="fas fa-check-circle"></i> Approval</a></li>
+      <li class="nav-item"><a class="nav-link" href="laporan_pemasukan_pelanggan.html"><i class="fas fa-users"></i> Pelanggan</a></li>
+    </ul>
+    <a class="nav-link text-danger" href="index.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
+  </div>
+</nav>
+
+<div class="container my-4">
+
+  <!-- Kotak utama total -->
+  <div class="grand-card">
+    <h5>Total Keseluruhan Uang Masuk Bulan Ini</h5>
+    <div class="value" id="grandTotal">Rp 0</div>
+  </div>
+
+  <!-- Ringkasan -->
+  <div class="row g-3 mt-2">
+    <div class="col-md-4">
+      <div class="stat-card">
+        <h6>Total Transaksi</h6>
+        <div class="value" id="totalTransaksi">0</div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="stat-card">
+        <h6>Total Pemasukan</h6>
+        <div class="value" id="totalPemasukan">Rp 0</div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="stat-card">
+        <h6>Terakhir Update</h6>
+        <div class="value" id="lastUpdated">-</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Form Input -->
+  <div class="form-section">
+    <h5>Tambah Transaksi</h5>
+    <form id="transaksiForm" class="row g-3">
+      <div class="col-md-4">
+        <label class="form-label">Nama Pelanggan</label>
+        <input type="text" id="nama" class="form-control" required>
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Nominal Pembayaran</label>
+        <input type="number" id="nominal" class="form-control" required>
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Tanggal Pembayaran</label>
+        <input type="date" id="tanggal" class="form-control" required>
+      </div>
+      <div class="col-12">
+        <button type="submit" class="btn btn-primary"><i class="fas fa-plus"></i> Simpan</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Tabel -->
+  <div class="table-section">
+    <div class="d-flex justify-content-between align-items-center mb-2">
+      <h5 class="mb-0">Daftar Transaksi Bulan Ini</h5>
+      <div>
+        <button id="exportExcel" class="btn btn-success btn-sm"><i class="fas fa-file-excel"></i> Export Excel</button>
+        <button id="exportPDF" class="btn btn-danger btn-sm"><i class="fas fa-file-pdf"></i> Export PDF</button>
+      </div>
+    </div>
+    <div class="table-responsive">
+      <table class="table table-bordered mb-0" id="transaksiTable">
+        <thead>
+          <tr>
+            <th>Tanggal</th>
+            <th>Nama</th>
+            <th>Nominal (Rp)</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+<!-- Export libs -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyDCougF9lDyP70dCwngEQApRMgk6VPRj90",
+  authDomain: "wordhome-9ffd0.firebaseapp.com",
+  databaseURL: "https://wordhome-9ffd0-default-rtdb.firebaseio.com",
+  projectId: "wordhome-9ffd0",
+  storageBucket: "wordhome-9ffd0.firebasestorage.app",
+  messagingSenderId: "907251172383",
+  appId: "1:907251172383:web:d71150b40f0b274994c12a",
+  measurementId: "G-WL5VGK0W4J"
+};
+firebase.initializeApp(firebaseConfig);
+
+const db = firebase.database().ref("pemasukan_pelanggan");
+const tbody = document.querySelector("#transaksiTable tbody");
+
+// Format Rupiah
+function formatRupiah(num){ return "Rp " + Number(num||0).toLocaleString('id-ID'); }
+
+// Ambil key bulan (2025-09)
+function getMonthKey(dateStr){
+  const d = new Date(dateStr);
+  if(isNaN(d)) return null;
+  return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,'0');
+}
+
+// Render data
+function render(data){
+  const now = new Date();
+  const currentKey = now.getFullYear()+"-"+String(now.getMonth()+1).padStart(2,'0');
+
+  let total = 0, count = 0;
+  tbody.innerHTML = "";
+
+  for(let id in data){
+    const t = data[id];
+    const tanggal = t.tanggal || "";
+    const nama = t.nama || "-";
+    const nominal = Number(t.nominal || 0);
+    const key = getMonthKey(tanggal);
+
+    if(key === currentKey){
+      total += nominal;
+      count++;
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td>${tanggal}</td><td>${nama}</td><td style="text-align:right">${nominal.toLocaleString('id-ID')}</td>`;
+      tbody.appendChild(tr);
+    }
+  }
+
+  document.getElementById("grandTotal").textContent = formatRupiah(total);
+  document.getElementById("totalPemasukan").textContent = formatRupiah(total);
+  document.getElementById("totalTransaksi").textContent = count;
+  document.getElementById("lastUpdated").textContent = new Date().toLocaleString('id-ID');
+}
+
+// Realtime listener
+db.on("value", snap => { render(snap.val() || {}); });
+
+// Input form
+document.getElementById("transaksiForm").addEventListener("submit", e=>{
+  e.preventDefault();
+  const nama = document.getElementById("nama").value;
+  const nominal = document.getElementById("nominal").value;
+  const tanggal = document.getElementById("tanggal").value;
+  db.push({ nama, nominal, tanggal });
+  e.target.reset();
+});
+
+// Export Excel
+document.getElementById("exportExcel").addEventListener("click", ()=>{
+  const wb = XLSX.utils.book_new();
+  const ws = XLSX.utils.table_to_sheet(document.getElementById("transaksiTable"));
+  XLSX.utils.book_append_sheet(wb, ws, "Laporan");
+  XLSX.writeFile(wb, "laporan_pelanggan.xlsx");
+});
+
+// Export PDF
+document.getElementById("exportPDF").addEventListener("click", ()=>{
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+  doc.text("Laporan Pemasukan Pelanggan", 14, 15);
+  const rows = [];
+  tbody.querySelectorAll("tr").forEach(tr=>{
+    const cols = tr.querySelectorAll("td");
+    rows.push([cols[0].innerText, cols[1].innerText, cols[2].innerText]);
+  });
+  doc.autoTable({ head:[["Tanggal","Nama","Nominal"]], body:rows, startY:25 });
+  doc.save("laporan_pelanggan.pdf");
+});
+</script>
+
+<!-- bootstrap js -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- jsPDF autotable -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+</body>
+</html>
